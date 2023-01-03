@@ -34,6 +34,10 @@ resource "aws_instance" "my-test-instance" {
   instance_type = "t3.micro"
 
   tags = {
-    Name = "HelloWorld"
+    Name = "My first Terraform instance"
+    Environment = "Dev"
+    ManagedBy   = "Terraform"
+    Owner       = "Paulo Gesualdo"
+    UpdatedAt   = "2023-01-03"
   }
 }
