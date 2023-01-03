@@ -49,3 +49,9 @@ resource "aws_s3_bucket_object" "random" {
   tags = local.common_tags
   content_type = "application/json"
 }
+
+resource "aws_s3_bucket" "manual-import" {
+
+  bucket = "bucket-created-at-console-123123"
+  
+}
