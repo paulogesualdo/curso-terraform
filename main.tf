@@ -9,19 +9,12 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws-region
 }
 
 resource "aws_s3_bucket" "my-test-bucket" {
   bucket = "my-tf-test-bucket-paulogesualdo"
-
-  tags = {
-    Name        = "My first Terraform bucket"
-    Environment = "Dev"
-    ManagedBy   = "Terraform"
-    Owner       = "Paulo Gesualdo"
-    UpdatedAt   = "2023-01-03"
-  }
+  tags   = var.dev_tags
 }
 
 resource "aws_s3_bucket_acl" "my-test-bucket-acl" {
@@ -30,14 +23,7 @@ resource "aws_s3_bucket_acl" "my-test-bucket-acl" {
 }
 
 resource "aws_instance" "my-test-instance" {
-  ami           = "ami-03c3a7e4263fd998c"
-  instance_type = "t3.micro"
-
-  tags = {
-    Name = "My first Terraform instance"
-    Environment = "Dev"
-    ManagedBy   = "Terraform"
-    Owner       = "Paulo Gesualdo"
-    UpdatedAt   = "2023-01-03"
-  }
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  tags          = var.dev_tags
 }
