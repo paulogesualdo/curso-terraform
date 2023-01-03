@@ -28,3 +28,12 @@ resource "aws_s3_bucket_acl" "my-test-bucket-acl" {
   bucket = aws_s3_bucket.my-test-bucket.id
   acl    = "private"
 }
+
+resource "aws_instance" "my-test-instance" {
+  ami           = "ami-03c3a7e4263fd998c"
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "HelloWorld"
+  }
+}
