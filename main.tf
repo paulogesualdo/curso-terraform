@@ -52,6 +52,6 @@ resource "aws_s3_bucket_object" "random" {
 
 resource "aws_s3_bucket" "manual-import" {
 
-  bucket = "bucket-criado-no-console-123123"
+  bucket = "bucket-created-at-console-123123"
   
 }
