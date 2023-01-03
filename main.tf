@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "4.48.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.4.3"
+    }
   }
 }
 
@@ -13,7 +17,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "my-test-bucket" {
-  bucket = "my-tf-test-bucket-paulogesualdo"
+  bucket = "${random_pet.bucket.id}-${var.environment}"
   tags   = var.dev_tags
 }
 
