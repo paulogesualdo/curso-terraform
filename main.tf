@@ -18,7 +18,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "my-test-bucket" {
   bucket = "${random_pet.bucket.id}-${var.environment}"
-  tags   = var.dev_tags
+  tags   = local.common_tags
 }
 
 resource "aws_s3_bucket_acl" "my-test-bucket-acl" {
@@ -30,4 +30,11 @@ resource "aws_instance" "my-test-instance" {
   ami           = var.instance_ami
   instance_type = var.instance_type
   tags          = var.dev_tags
+}
+
+resource "aws_s3_bucket_object" "my-test-bucket-object" {
+  bucket = aws_s3_bucket.my-test-bucket
+  key    = "config/${local.ip_filepath}"
+  source = local.ip_filepath
+  etag = filemd5(local.ip_filepath)
 }
