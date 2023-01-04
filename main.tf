@@ -1,5 +1,7 @@
 terraform {
+  
   required_version = "1.3.6"
+  
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -9,6 +11,12 @@ terraform {
       source  = "hashicorp/random"
       version = "3.4.3"
     }
+  }
+  
+  backend "s3" {
+    bucket = "tfstate-968339500772" // here is not possible to use variables because this is the first module that will be executed
+    key    = "dev/01-usando-remote-state/terraform.tfstate" // path where the terraform.tfstate file will be in the s3 bucket
+    region = "us-east-1"
   }
 }
 
@@ -51,7 +59,33 @@ resource "aws_s3_bucket_object" "random" {
 }
 
 resource "aws_s3_bucket" "manual-import" {
-
-  bucket = "bucket-created-at-console-123123"
   
+  bucket = "bucket-created-at-console-123123"
+
 }
+
+data "aws_caller_identity" "current" {
+
+}
+
+resource "aws_s3_bucket" "remote-state" {
+  bucket = "tfstate-${data.aws_caller_identity.current.account_id}"
+  versioning {
+    enabled = true
+  }
+  tags = {
+    Description = "Stores Terraform remote state files"
+    ManagedBy = "Terraform"
+    Owner = "Paulo Gesualdo"
+  }
+}
+
+resource "aws_instance" "remote-state" {
+  ami = var.instance_ami
+  instance_type = var.instance_type
+  tags = {
+    Name = "Remote State"
+    Env = "dev"
+  }
+}
+
