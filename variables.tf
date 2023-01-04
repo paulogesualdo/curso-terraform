@@ -17,11 +17,14 @@ variable "instance_type" {
 }
 
 variable "dev_tags" {
+
   type        = map(string)
   description = ""
+
   default = {
     Environment = "Dev"
     ManagedBy   = "Terraform"
     Owner       = "Paulo Gesualdo"
   }
+
 }
